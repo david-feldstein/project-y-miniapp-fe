@@ -44,47 +44,47 @@
 </script>
 
 <Dialog {open} onOpenChange={onOpenChange}>
-  <DialogContent class="sm:max-w-[900px]">
-    <div class="p-4">
-      <h2 class="text-lg font-semibold mb-4">Select Your Bank</h2>
+  <DialogContent class="sm:max-w-[900px] max-h-[90vh] flex flex-col">
+    <div class="p-4 border-b">
+      <h2 class="text-lg font-semibold">Select Your Bank</h2>
+    </div>
     
-      <div class="overflow-y-auto">
-        {#if loading}
-          <div class="flex justify-center items-center min-h-[300px]">
-            <Loader2 class="h-8 w-8 animate-spin" />
-          </div>
-        {:else if error}
-          <div class="text-center text-destructive p-4">
-            {error}
-          </div>
-        {:else}
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {#each institutions as institution}
-              <Card
-                class="p-4 hover:bg-accent cursor-pointer transition-colors"
-                on:click={() => handleBankSelect(institution)}
-                on:keydown={(e) => e.key === 'Enter' && handleBankSelect(institution)}
-                role="button"
-                tabindex="0"
-              >
-                <div class="flex flex-col items-center space-y-4">
-                  <img
-                    src={institution.logo}
-                    alt={institution.name}
-                    class="h-12 w-auto object-contain"
-                  />
-                  <div class="text-center">
-                    <h3 class="font-medium">{institution.name}</h3>
-                    <p class="text-xs text-muted-foreground">
-                      {institution.transaction_total_days} days of history
-                    </p>
-                  </div>
+    <div class="flex-1 overflow-y-auto p-4">
+      {#if loading}
+        <div class="flex justify-center items-center min-h-[300px]">
+          <Loader2 class="h-8 w-8 animate-spin" />
+        </div>
+      {:else if error}
+        <div class="text-center text-destructive p-4">
+          {error}
+        </div>
+      {:else}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {#each institutions as institution}
+            <Card
+              class="p-4 hover:bg-accent cursor-pointer transition-colors"
+              on:click={() => handleBankSelect(institution)}
+              on:keydown={(e) => e.key === 'Enter' && handleBankSelect(institution)}
+              role="button"
+              tabindex="0"
+            >
+              <div class="flex flex-col items-center space-y-4">
+                <img
+                  src={institution.logo}
+                  alt={institution.name}
+                  class="h-12 w-auto object-contain"
+                />
+                <div class="text-center">
+                  <h3 class="font-medium">{institution.name}</h3>
+                  <p class="text-xs text-muted-foreground">
+                    {institution.transaction_total_days} days of history
+                  </p>
                 </div>
-              </Card>
-            {/each}
-          </div>
-        {/if}
-      </div>
+              </div>
+            </Card>
+          {/each}
+        </div>
+      {/if}
     </div>
   </DialogContent>
 </Dialog>
