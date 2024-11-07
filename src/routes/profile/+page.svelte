@@ -88,11 +88,25 @@
                 <td class="px-6 py-4">
                   {#if account.trans_state !== 'done'}
                     <div class="flex items-center">
-                      <Loader2 class="h-4 w-4 animate-spin mr-2" />
-                      Loading...
+                      {#if account.trans_state == 'loading'}
+                        <Loader2 class="h-4 w-4 animate-spin mr-2" />
+                      {:else}
+                        ✅
+                      {/if}
+                      Loading transactions...
                     </div>
+                    {#if ['loaded', 'classifying'].includes(account.trans_state)}
+                      <div class="flex items-center">
+                        {#if ['loaded', 'classifying'].includes(account.trans_state)}
+                          <Loader2 class="h-4 w-4 animate-spin mr-2" />
+                        {:else}
+                          ✅
+                        {/if}
+                        Classifying transactions...
+                      </div>
+                    {/if}
                   {:else}
-                    {data.transactionCounts[account.account_id] || 0}
+                    ✅ Transactions successfully loaded
                   {/if}
                 </td>
               </tr>
