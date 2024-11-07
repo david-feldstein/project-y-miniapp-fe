@@ -10,6 +10,7 @@
   import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "$lib/components/ui/card";
   import { Label } from "$lib/components/ui/label";
   import { Mail } from 'lucide-svelte';
+  import { Toaster } from 'svelte-sonner';
 
   const isLoading = writable(true);
   let session = null;
@@ -168,3 +169,5 @@
     </Card>
   </div>
 {/if}
+
+<Toaster />

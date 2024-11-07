@@ -31,7 +31,9 @@
     "@supabase/supabase-js": "^2.39.0",
     "bits-ui": "^0.5.7",
     "lucide-svelte": "^0.294.0",
-    "mode-watcher": "^0.0.7"
+    "mode-watcher": "^0.0.7",
+    "sonner": "^1.4.0",
+    "svelte-sonner": "^0.3.18"
   },
   "type": "module"
 }
