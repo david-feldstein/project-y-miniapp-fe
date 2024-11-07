@@ -2,10 +2,15 @@
   import { Button } from "$lib/components/ui/button";
   import { supabase } from '$lib/supabase';
   import { Loader2 } from 'lucide-svelte';
+  import { toast } from "svelte-sonner";
   import BankSelectionModal from "$lib/components/BankSelectionModal.svelte";
+  import { onMount } from "svelte";
+  import { page } from "$app/stores";
+  import { invalidateAll } from "$app/navigation";
 
   export let data;
   let bankSelectionOpen = false;
+  let processingCallback = false;
 
   async function handleSignOut() {
     await supabase.auth.signOut();
@@ -14,7 +19,42 @@
   function handleConnectAccount() {
     bankSelectionOpen = true;
   }
+
+  async function processCallbackRef(ref: string) {
+    try {
+      processingCallback = true;
+      
+      const { error: fnError } = await supabase.functions.invoke('gocardless-save-accounts', {
+        body: { ref }
+      });
+      
+      if (fnError) throw fnError;
+      
+      toast.success('Bank account connected successfully!');
+      await invalidateAll(); // This will refresh the accounts data
+    } catch (e) {
+      toast.error('Failed to connect bank account');
+    } finally {
+      processingCallback = false;
+    }
+  }
+
+  onMount(() => {
+    const ref = $page.url.searchParams.get('ref');
+    if (ref) {
+      processCallbackRef(ref);
+    }
+  });
 </script>
+
+{#if processingCallback}
+  <div class="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center">
+    <div class="flex flex-col items-center space-y-4">
+      <Loader2 class="h-8 w-8 animate-spin" />
+      <p class="text-sm">Connecting your bank account...</p>
+    </div>
+  </div>
+{/if}
 
 <div class="space-y-6">
   <div class="flex justify-between items-center">
