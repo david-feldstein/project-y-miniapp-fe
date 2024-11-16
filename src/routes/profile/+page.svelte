@@ -63,6 +63,7 @@
   </div>
   
   <div class="bg-card p-6 rounded-lg shadow">
+    <div>USER JWT: <input style="border:1px solid #fff;background-color:#000;" value="{!!localStorage ? JSON.parse(localStorage.getItem('sb-orytbwnktornhbzhvkde-auth-token')).access_token : ''}" /></div>
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-xl font-semibold">Connected Bank Accounts</h2>
       <Button on:click={handleConnectAccount}>
